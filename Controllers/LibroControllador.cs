@@ -14,33 +14,34 @@ namespace LibreríaELADIO.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var libros = await _context.Libros.ToListAsync();
+            var libros = _context.Libros.ToList();
             return View(libros);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Store(Libro libro)
+        public IActionResult Store(Libro libro)
         {
             if (ModelState.IsValid)
             {
-                _context.Libros.Add(libro);
-                await _context.SaveChangesAsync();
+                _context.Libros.Add(libro); 
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
 
-            var libros = await _context.Libros.ToListAsync();
+            var libros = _context.Libros.ToList();
             return View("Index", libros);
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            var libro = await _context.Libros.FindAsync(id);
-            if (libro == null) return NotFound();
+            var libro = _context.Libros.Find(id);
+            if (libro == null)
+                return NotFound();
 
             _context.Libros.Remove(libro);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
     }
