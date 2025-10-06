@@ -20,20 +20,6 @@ namespace LibreríaELADIO.Controllers
             return View(libros);
         }
 
-        [HttpPost]
-        public IActionResult Store(Libro libro)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Libros.Add(libro); 
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-
-            var libros = _context.Libros.ToList();
-            return View("Index", libros);
-        }
-
         public IActionResult Delete(int id)
         {
             var libro = _context.Libros.Find(id);
